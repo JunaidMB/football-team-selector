@@ -7,9 +7,9 @@ library(dplyr)
 
 ppl <- gs_url('https://docs.google.com/spreadsheets/d/1RI5k3lTVfHCUmegUT9YvdDnH14HHRw82vivqp5egU5k/edit#gid=0', verbose = TRUE)                     
 
-player.list <- data.frame(gs_read(ss = ppl, ws = "Sheet1"))
+player.list <- data.frame(gs_read(ss = ppl, ws = "Sheet1", range = 'A1:D150'))
 
-df <- filter(player.list, playing == 'Y') %>% select(-playing)
+df <- player.list %>% filter(Playing == 'Y') %>% dplyr::select(-Playing)
 
 # Load historical logs of teams
 
@@ -58,5 +58,6 @@ write.csv(historical.teams.new, file = "/Users/junaidbutt/developer/football_tea
 
 # Upload historical team to GS
 gs_upload(file = "/Users/junaidbutt/developer/football_team_selector/csv_files/historical_teams.csv", sheet_title = "historical_teams", verbose = TRUE, overwrite = TRUE)
+
 
 
